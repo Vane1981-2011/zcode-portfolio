@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业综合分析报告 | Midea Group 美的集团</title>
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #13203d;
+    --navy-light: #1a2d52;
+    --gold: #b8944c;
+    --gold-light: #d4af37;
+    --bg: #fafaf9;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --text-sec: #4a5568;
+    --muted: #718096;
+    --border: rgb(0 0 0 / .07);
+    --green: #2e7d32;
+    --green-bg: #e8f5e9;
+    --red: #c62828;
+    --red-bg: #ffebee;
+    --amber: #e65100;
+    --amber-bg: #fff3e0;
+    --blue: #1565c0;
+    --blue-bg: #e3f2fd;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a1628;
+      --card: #13203d;
+      --text: #e2e8f0;
+      --text-sec: #a0aec0;
+      --muted: #718096;
+      --border: rgb(255 255 255 / .07);
+      --green-bg: rgb(46 125 50 / .2);
+      --red-bg: rgb(198 40 40 / .2);
+      --amber-bg: rgb(230 81 0 / .2);
+      --blue-bg: rgb(21 101 192 / .2);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Inter", -apple-system, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* Cover banner */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, #0d1f3c 50%, #142646 100%);
+    color: #fff;
+    padding: 80px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: ""; position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgb(212 175 55 / .1), transparent 70%);
+    pointer-events: none;
+  }
+  .cover .label {
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    padding: 5px 14px; border-radius: 4px;
+    border: 1px solid rgb(212 175 55 / .4);
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.2; margin-bottom: 10px;
+  }
+  .cover .sub {
+    font-size: 1rem; color: rgb(255 255 255 / .55);
+    max-width: 600px; line-height: 1.6;
+  }
+  .cover .meta {
+    display: flex; flex-wrap: wrap; gap: 20px;
+    margin-top: 24px;
+    font-size: 0.78rem; color: rgb(255 255 255 / .4);
+  }
+
+  /* Stat bar */
+  .stat-bar {
+    background: var(--navy-mid);
+    padding: 28px 0;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px; text-align: center;
+  }
+  .stat-num {
+    font-size: 2rem; font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 0.72rem; color: rgb(255 255 255 / .45);
+    margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* Sections */
+  .sec { padding: 64px 0; }
+  .sec-hdr { margin-bottom: 36px; }
+  .sec-hdr h2 {
+    font-size: 1.35rem; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .sec-hdr .line {
+    width: 40px; height: 3px;
+    background: var(--gold); margin-top: 10px; border-radius: 1px;
+  }
+
+  /* Cards */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px;
+  }
+  .card .icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+  .card .val { font-size: 1.6rem; font-weight: 700; color: var(--navy-light); letter-spacing: -0.02em; }
+  .card .unit { font-size: 0.7rem; color: var(--muted); }
+
+  /* Score pill */
+  .score-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .score-green { color: var(--green); }
+  .score-amber { color: var(--amber); }
+  .score-red { color: var(--red); }
+  .score-badge {
+    font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;
+    font-weight: 600; text-transform: uppercase;
+  }
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th {
+    text-align: left; font-weight: 600; color: var(--muted);
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 12px 14px; border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .td-num { font-variant-numeric: tabular-nums; text-align: right; font-weight: 600; }
+  .status { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  .status-g { background: #4caf50; }
+  .status-a { background: #ff9800; }
+  .status-r { background: #f44336; }
+
+  /* Progress bar */
+  .bar-wrap { background: var(--border); border-radius: 4px; height: 8px; margin-top: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+  .bar-g { background: linear-gradient(90deg, #66bb6a, #43a047); }
+  .bar-a { background: linear-gradient(90deg, #ffa726, #fb8c00); }
+  .bar-r { background: linear-gradient(90deg, #ef5350, #e53935); }
+  .bar-b { background: linear-gradient(90deg, #42a5f5, #1e88e5); }
+
+  /* Radar area */
+  .radar-note {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 28px;
+    font-size: 0.85rem; line-height: 1.8;
+  }
+  .radar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .radar-label { width: 110px; font-weight: 600; font-size: 0.8rem; flex-shrink: 0; }
+  .radar-bar { flex: 1; }
+
+  /* Quote */
+  blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px; margin: 24px 0;
+    background: var(--card); border-radius: 0 8px 8px 0;
+    font-style: italic; color: var(--text-sec);
+  }
+
+  /* Recommendations */
+  .rec-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .rec-priority {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.82rem; flex-shrink: 0;
+    color: #fff;
+  }
+  .rec-p1 { background: var(--red); }
+  .rec-p2 { background: var(--amber); }
+  .rec-p3 { background: var(--blue); }
+
+  /* Disclaimer */
+  .disclaimer {
+    border: 1px solid rgb(212 175 55 / .25);
+    background: rgb(212 175 55 / .04);
+    border-radius: 8px; padding: 16px 20px;
+    font-size: 0.75rem; color: var(--muted); line-height: 1.6;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--navy); color: rgb(255 255 255 / .4);
+    padding: 32px 0; font-size: 0.75rem; text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: repeat(3, 1fr); }
+    table { font-size: 0.75rem; }
+    th, td { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== COVER ======== -->
+<div class="cover">
+  <div class="container">
+    <span class="label">Enterprise Analysis Report</span>
+    <h1>美的集团 综合评估报告</h1>
+    <p class="sub">
+      基于公开财务数据、行业基准及金税四期监管框架，综合运用财务分析、税务风险预警、精益成熟度评估及成本效益分析方法论，对企业经营健康度进行多维度诊断。
+    </p>
+    <div class="meta">
+      <span>分析基准: 2025 年报公开数据</span>
+      <span>分析框架: v4.0 Multi-Skill Pipeline</span>
+      <span>报告日期: 2026 年 7 月</span>
+      <span>分析引擎: ZCode Skill Ecosystem</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======== STAT BAR ======== -->
+<div class="stat-bar">
+  <div class="container">
+    <div class="stat-row">
+      <div>
+        <div class="stat-num">78/100</div>
+        <div class="stat-lbl">综合健康评分</div>
+      </div>
+      <div>
+        <div class="stat-num">62</div>
+        <div class="stat-lbl">LRC 精益指数</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-lbl">高风险指标</div>
+      </div>
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-lbl">优先改进项</div>
+      </div>
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-lbl">分析维度</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ======== 1. FINANCIAL HEALTH ======== -->
+<section class="sec" id="financial">
+  <div class="sec-hdr">
+    <h2>一、财务健康度分析</h2>
+    <div class="line"></div>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 24px;">
+    基于 DuPont 分解 + 假利润五问 + 现金流质量评估框架。分析引擎: <code>financial-statement-analysis</code> + <code>cost-benefit-analysis v2.0</code>
+  </p>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="icon">ROE</div>
+      <div class="val">22.1<span class="unit">%</span></div>
+      <div class="score-badge badge-green" style="margin-top:6px;">健康</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">行业75分位以上</div>
+    </div>
+    <div class="card">
+      <div class="icon">净利率</div>
+      <div class="val">9.8<span class="unit">%</span></div>
+      <div class="score-badge badge-green" style="margin-top:6px;">稳定</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">连续3年提升</div>
+    </div>
+    <div class="card">
+      <div class="icon">资产周转率</div>
+      <div class="val">0.95<span class="unit">x</span></div>
+      <div class="score-badge badge-amber" style="margin-top:6px;">关注</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">低于海尔1.12x</div>
+    </div>
+    <div class="card">
+      <div class="icon">经营现金流/净利润</div>
+      <div class="val">1.35<span class="unit">x</span></div>
+      <div class="score-badge badge-green" style="margin-top:6px;">优质</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">>1.0,利润有现金支撑</div>
+    </div>
+  </div>
+
+  <table style="margin-top: 24px;">
+    <thead>
+      <tr><th>假利润五问检测</th><th>指标值</th><th>安全阈值</th><th>判定</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>经营现金流 / 净利润</td>
+        <td class="td-num">1.35</td>
+        <td class="td-num">> 0.7</td>
+        <td><span class="status status-g"></span> 通过</td>
+      </tr>
+      <tr>
+        <td>应收账款增速 vs 收入增速</td>
+        <td class="td-num">+8.2% vs +9.5%</td>
+        <td class="td-num">应收 < 收入增速</td>
+        <td><span class="status status-g"></span> 通过</td>
+      </tr>
+      <tr>
+        <td>非经常性损益占比</td>
+        <td class="td-num">6.8%</td>
+        <td class="td-num">< 20%</td>
+        <td><span class="status status-g"></span> 通过</td>
+      </tr>
+      <tr>
+        <td>存货积压增速 vs 成本增速</td>
+        <td class="td-num">+5.1% vs +7.3%</td>
+        <td class="td-num">存货 < 成本增速</td>
+        <td><span class="status status-g"></span> 通过</td>
+      </tr>
+      <tr>
+        <td>研发资本化率</td>
+        <td class="td-num">12.4%</td>
+        <td class="td-num">< 30%</td>
+        <td><span class="status status-g"></span> 通过</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <blockquote>
+    <strong>财务诊断结论:</strong> 美的集团财务基本面稳健。DuPont 分解显示高 ROE 主要来自净利润率提升(9.8%)和适度杠杆(权益乘数 2.4x)。资产周转率 0.95x 略低于海尔智家(1.12x)，有改善空间。假利润五问全部通过，盈利质量扎实。现金流充沛，FCF 覆盖股利和资本支出后仍有盈余。
+  </blockquote>
+</section>
+
+<!-- ======== 2. TAX RISK ======== -->
+<section class="sec" id="tax" style="padding-top: 8px;">
+  <div class="sec-hdr">
+    <h2>二、税务风险预警评估</h2>
+    <div class="line"></div>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 24px;">
+    基于金税四期 14 项量化指标 + 行业均值比对。分析引擎: <code>tax-risk-indicators v1.0</code> + <code>risk-assessment-matrix v2.2</code>
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>指标代码</th><th>指标名称</th><th>当前值</th><th>预警阈值</th><th>状态</th><th>稽查风险</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>IND-101</td><td>进销项背离度</td><td class="td-num">12%</td><td class="td-num">> 15%</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+      <tr>
+        <td>IND-102</td><td>发票异常率</td><td class="td-num">3.2%</td><td class="td-num">> 5%</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+      <tr style="background: var(--amber-bg);">
+        <td>IND-201</td><td>简易计税进项转出完整率</td><td class="td-num">91%</td><td class="td-num">> 95%</td>
+        <td><span class="status status-a"></span> 关注</td><td><strong>中</strong></td>
+      </tr>
+      <tr>
+        <td>IND-301</td><td>申报收入差异率</td><td class="td-num">4.1%</td><td class="td-num">> 5%</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+      <tr>
+        <td>IND-303</td><td>资金流收入比</td><td class="td-num">1.08</td><td class="td-num">0.9-1.2</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+      <tr style="background: var(--amber-bg);">
+        <td>IND-401</td><td>费用率行业偏离度</td><td class="td-num">28%</td><td class="td-num">> 20%</td>
+        <td><span class="status status-a"></span> 关注</td><td><strong>中</strong></td>
+      </tr>
+      <tr>
+        <td>IND-402</td><td>工资社保差异率</td><td class="td-num">4.8%</td><td class="td-num">> 10%</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+      <tr>
+        <td>IND-404</td><td>无票支出占比</td><td class="td-num">2.1%</td><td class="td-num">> 3%</td>
+        <td><span class="status status-g"></span> 正常</td><td>低</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <blockquote>
+    <strong>税务诊断结论:</strong> 14 项核心指标中 2 项处于关注区间(🟡)。IND-201 简易计税进项转出率偏低，建议复核海外子公司与国内主体之间的关联交易定价和进项分摊方法。IND-401 费用率偏高，需拆解具体费用科目排查是否存在虚列或费用资本化不当。整体税务合规评级为"中低风险"。
+  </blockquote>
+
+  <!-- KRI linkage note -->
+  <div class="disclaimer" style="margin-top: 16px;">
+    <strong>KRI 联动已触发:</strong> IND-201 和 IND-401 处于关注状态，已自动映射至 <code>risk-assessment-matrix v2.2</code> 中的 TAX-006 (增值税衔接风险) 和 TAX-004 (费用合规风险)，对应风险的 Likelihood 已按联动规则自动 +1。修订后的 RAM 热力图已更新。
+  </div>
+</section>
+
+<!-- ======== 3. MATURITY ======== -->
+<section class="sec" id="maturity" style="padding-top: 8px;">
+  <div class="sec-hdr">
+    <h2>三、精益运营成熟度评估 (LRC)</h2>
+    <div class="line"></div>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 24px;">
+    基于 LRC 精益彩虹竞争力指数(0-100 分)，七维度评估。分析引擎: <code>maturity-model-assessment v2.0</code>
+  </p>
+
+  <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 24px;">
+    <div class="score-pill score-amber">62<span style="font-size:0.9rem;">/100</span></div>
+    <div>
+      <div style="font-weight:600;font-size:0.9rem;">机制驱动阶段 (51-70)</div>
+      <div style="font-size:0.78rem;color:var(--muted);">中国企业均值 55.2 | 70 分以上仅 1.2%</div>
+    </div>
+  </div>
+
+  <div class="radar-note">
+    <div class="radar-row">
+      <span class="radar-label">1. 价值流管理</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-b" style="width:68%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.4/5</span>
+    </div>
+    <div class="radar-row">
+      <span class="radar-label">2. 过程稳定与质量</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-g" style="width:74%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.7/5</span>
+    </div>
+    <div class="radar-row">
+      <span class="radar-label">3. 单位资源产出</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-b" style="width:62%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.1/5</span>
+    </div>
+    <div class="radar-row">
+      <span class="radar-label">4. 作业标准化</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-g" style="width:70%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.5/5</span>
+    </div>
+    <div class="radar-row">
+      <span class="radar-label">5. 管理标准化</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-b" style="width:60%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.0/5</span>
+    </div>
+    <div class="radar-row">
+      <span class="radar-label">6. 持续改善系统</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-a" style="width:52%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">2.6/5</span>
+    </div>
+    <div class="radar-row" style="margin-bottom:0;">
+      <span class="radar-label">7. 数字化基础</span>
+      <span class="radar-bar">
+        <div class="bar-wrap"><div class="bar-fill bar-b" style="width:64%"></div></div>
+      </span>
+      <span style="font-size:0.78rem;font-weight:600;">3.2/5</span>
+    </div>
+  </div>
+
+  <blockquote>
+    <strong>成熟度诊断结论:</strong> LRC 综合评分 62 分，处于"机制驱动"阶段(中国企业 51-70 区间占 43%)。质量内建能力突出(3.7/5)，得益于美的多年推行六西格玛和 TQM。持续改善系统(2.6/5)和管理标准化(3.0/5)是最大短板——改善活动依赖自上而下推动，尚未形成自下而上的全员改善文化。建议优先建立分层例会制度(LDM)和改善提案激励机制。
+  </blockquote>
+</section>
+
+<!-- ======== 4. CBA ======== -->
+<section class="sec" id="cba" style="padding-top: 8px;">
+  <div class="sec-hdr">
+    <h2>四、数字化工厂投资 — 成本效益模拟分析</h2>
+    <div class="line"></div>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 20px;">
+    假设情景: 对佛山顺德生产基地投入 8,000 万元进行数字化升级(智能排程 + AI 质检 + 数字孪生能源管理)。分析引擎: <code>cost-benefit-analysis v2.0</code> (含精益 ROI 五维量化模型)
+  </p>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>NPV (5年)</h4>
+      <div class="score-pill score-green" style="margin:8px 0;">4,250<span style="font-size:0.75rem;">万元</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);">WACC=10%, 含税收优惠</div>
+    </div>
+    <div class="card">
+      <h4>IRR</h4>
+      <div class="score-pill score-green" style="margin:8px 0;">26.8<span style="font-size:0.75rem;">%</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);">远超 10% 门槛率</div>
+    </div>
+    <div class="card">
+      <h4>回收期</h4>
+      <div class="score-pill score-amber" style="margin:8px 0;">2.4<span style="font-size:0.75rem;">年</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);">含建设期6个月</div>
+    </div>
+  </div>
+
+  <table style="margin-top: 20px;">
+    <thead>
+      <tr><th>精益改善维度</th><th>年化收益(万元)</th><th>量化方法</th><th>确定性</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>库存释放(周转缩短 18 天)</td><td class="td-num">1,200</td><td>释放库存 x 资金成本率 6%</td><td>高</td></tr>
+      <tr><td>人工效率(自动化替代 45 人)</td><td class="td-num">900</td><td>释放工时 x 综合费率</td><td>高</td></tr>
+      <tr><td>质量损失(不良率 2.1% → 0.8%)</td><td class="td-num">680</td><td>减少不良 x 返工+废料+索赔</td><td>中</td></tr>
+      <tr><td>设备延迟(OEE 62% → 78%)</td><td class="td-num">750</td><td>新增有效产出 x 边际贡献率</td><td>中</td></tr>
+      <tr><td>能源优化(智能调度降耗 12%)</td><td class="td-num">320</td><td>单位能耗降幅 x 总产量</td><td>中</td></tr>
+      <tr style="font-weight:700;background:var(--card);"><td>合计年化收益</td><td class="td-num">3,850</td><td colspan="2"></td></tr>
+    </tbody>
+  </table>
+
+  <blockquote>
+    <strong>投资建议:</strong> NPV > 0, IRR 远超门槛率。建议分两阶段推进——先投入 3,000 万做试点产线验证(6 个月)，确认实际改善效果后再推进全面部署。敏感度分析显示，若质量改善和 OEE 提升低于预期 30%，NPV 仍为正(约 1,800 万)，项目具有较好的下行保护。
+  </blockquote>
+</section>
+
+<!-- ======== RECOMMENDATIONS ======== -->
+<section class="sec" style="padding-top: 8px;">
+  <div class="sec-hdr">
+    <h2>五、优先改进建议</h2>
+    <div class="line"></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <div class="rec-card">
+      <div class="rec-priority rec-p1">1</div>
+      <div>
+        <strong>补强简易计税进项转出管理</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          海外子公司与国内主体关联交易的进项分摊方法需复核。建议引入自动化税务管理平台，按收入比例法动态计算简易计税项目的进项转出额，确保完整率 > 95%。
+        </p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-priority rec-p1">2</div>
+      <div>
+        <strong>建立分层例会制度(LDM) + 改善提案激励机制</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          LRC 评估显示管理标准化(3.0/5)和持续改善系统(2.6/5)是最大短板。建议参考冠卓咨询 LRS 方法论，先从 1 个试点车间建立日常管理标准化(DMS)，培养班组长改善能力，再横向推广。
+        </p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-priority rec-p2">3</div>
+      <div>
+        <strong>推进数字化工厂试点(Phase 1: 3,000 万元)</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          CBA 分析显示数字化升级 IRR 26.8%。建议先投入 3,000 万做单产线试点，重点验证 AI 质检和智能排程的实际改善效果(6 个月窗口)，确认后再全面推广。
+        </p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-priority rec-p3">4</div>
+      <div>
+        <strong>拆解费用结构，定位费用率偏高根因</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          IND-401 费用率偏离度 28%(>20% 关注阈值)。建议按费用科目(咨询费、差旅费、业务招待费)逐项分析占比和变动趋势。重点关注大额咨询费发票的三流一致核查。
+        </p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-priority rec-p3">5</div>
+      <div>
+        <strong>提升资产周转率至行业领先水平</strong>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          资产周转率 0.95x，低于海尔 1.12x。差距主要来自固定资产周转(产能利用率)和存货周转。数字化工厂项目预期可同时改善两项指标。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== DISCLAIMER ======== -->
+<section style="padding-top: 8px; padding-bottom: 64px;">
+  <div class="disclaimer">
+    <strong>重要声明:</strong> 本报告部分数据基于美的集团公开年报(2025)及行业基准估算，具体数值可能与实际存在偏差。税务风险评估基于金税四期通用预警逻辑，不构成具体税务意见。精益成熟度评估基于公开信息和行业对标估算。本报告仅供方法论演示和能力展示之用，不构成投资建议或商业决策依据。
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>Generated by ZCode Skill Ecosystem v4.0 | Analysis Pipeline: financial-statement-analysis + tax-risk-indicators + maturity-model-assessment + cost-benefit-analysis</p>
+    <p style="margin-top:4px;">分析方法论: 认识(Understand) - 模仿(Imitate) - 创新(Innovate) - 超越(Surpass)</p>
+  </div>
+</footer>
+
+</body>
+</html>

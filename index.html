@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Skill Ecosystem - Professional Portfolio</title>
+<style>
+  :root {
+    --navy: #0F2027;
+    --navy-light: #1A3352;
+    --gold: #B89870;
+    --gold-light: #D4AF37;
+    --bg: #FAFAF9;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B7280;
+    --border: rgb(0 0 0 / .08);
+    --accent-soft: #F0EDE4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F172A;
+      --card: #1E293B;
+      --text: #E2E8F0;
+      --muted: #94A3B8;
+      --border: rgb(255 255 255 / .08);
+      --accent-soft: #1E293B;
+      --navy: #1A3352;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header {
+    background: var(--navy);
+    color: #FFFFFF;
+    padding: 80px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgb(212 175 55 / .12), transparent 70%);
+    pointer-events: none;
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  header .subtitle {
+    font-size: 1.05rem;
+    color: rgb(255 255 255 / .65);
+    font-weight: 400;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  header .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: rgb(255 255 255 / .5);
+  }
+  header .meta-row span { display: flex; align-items: center; gap: 6px; }
+
+  /* Stats strip */
+  .stats-strip {
+    background: var(--navy-light);
+    padding: 32px 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgb(255 255 255 / .5);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Section headings */
+  .section { padding: 72px 0; }
+  .section-header {
+    margin-bottom: 40px;
+  }
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .section-header .line {
+    width: 48px;
+    height: 3px;
+    background: var(--gold);
+    margin-top: 12px;
+    border-radius: 1px;
+  }
+
+  /* Card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 24px rgb(0 0 0 / .06);
+  }
+  .card .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+  .badge-new { background: #E8F5E9; color: #2E7D32; }
+  .badge-upgrade { background: #FFF3E0; color: #E65100; }
+  .badge-core { background: #E3F2FD; color: #1565C0; }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .card .desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .card .tag {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .card .ver {
+    font-size: 0.72rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  /* Workflow section */
+  .workflow-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    text-align: center;
+  }
+  .workflow-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 12px;
+  }
+  .workflow-step .icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .workflow-step .label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .workflow-step .role {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .workflow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.2rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--navy);
+    color: rgb(255 255 255 / .5);
+    padding: 40px 0;
+    font-size: 0.82rem;
+    text-align: center;
+  }
+  footer a {
+    color: var(--gold-light);
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .workflow-row { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    header { padding: 48px 0 40px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .workflow-row { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>AI Agent Skill Ecosystem</h1>
+    <p class="subtitle">
+      Design and build a production-grade AI skill ecosystem with multi-agent orchestration, dual-gate enforcement, and cross-domain knowledge integration — covering finance, tax compliance, strategic analysis, and content generation.
+    </p>
+    <div class="meta-row">
+      <span>20+ Skills Built & Enhanced</span>
+      <span>v4.0 Architecture Standard</span>
+      <span>Finance · Tax · Strategy · Content</span>
+    </div>
+  </div>
+</header>
+
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">7</div>
+        <div class="stat-label">New Skills Created</div>
+      </div>
+      <div>
+        <div class="stat-value">5</div>
+        <div class="stat-label">Skills Upgraded to v2+</div>
+      </div>
+      <div>
+        <div class="stat-value">41</div>
+        <div class="stat-label">Tools & Frameworks Built</div>
+      </div>
+      <div>
+        <div class="stat-value">14</div>
+        <div class="stat-label">Tax Risk Indicators</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- New Skills -->
+  <section class="section">
+    <div class="section-header">
+      <h2>New Skills Created</h2>
+      <div class="line"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <span class="badge badge-new">v1.0 New</span>
+        <h3>debate-doc-generator v4.0</h3>
+        <p class="desc">
+          Intelligent debate preparation system based on Toulmin argument model with bilateral clash engine and v4 Sub-Agent Router. Multi-agent orchestration (analyst, bull, bear, synthesizer, formatter) with 6 sub-agents, 3-dial debate intensity system (DEPTH/RIGOR/RHETORIC), and MECH-GATE 13-rule mechanical validation.
+        </p>
+        <div class="tags">
+          <span class="tag">Toulmin Model</span>
+          <span class="tag">Multi-Agent</span>
+          <span class="tag">Dual-Gate</span>
+          <span class="tag">Bull/Bear Debate</span>
+          <span class="tag">Cross-Run Memory</span>
+        </div>
+        <div class="ver">Upgraded from v3.1 (294 lines) to v4.0 (576 lines)</div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-new">v1.0 New</span>
+        <h3>finance-bp-toolkit v1.0</h3>
+        <p class="desc">
+          Finance BP operational toolkit covering 7 business domains: strategic decoding (Strategy Map + BSC + OKR), zero-based budgeting, CVP analysis, customer profitability matrix, supplier multi-dimension evaluation, target costing, Stage-Gate R&D control, EVA calculation, and investment post-evaluation.
+        </p>
+        <div class="tags">
+          <span class="tag">CVP Analysis</span>
+          <span class="tag">ZBB</span>
+          <span class="tag">Target Costing</span>
+          <span class="tag">EVA</span>
+          <span class="tag">Supplier Scorecard</span>
+          <span class="tag">Stage-Gate</span>
+        </div>
+        <div class="ver">15 executable tools with formulas, thresholds, and usage examples</div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-new">v1.0 New</span>
+        <h3>tax-risk-indicators v1.0</h3>
+        <p class="desc">
+          Quantitative tax risk early warning system under Golden Tax Phase IV. 14 indicators across 4 categories: invoice risks (deviation, fraud linkage), special business risks (simplified tax, exemption confusion), revenue risks (declaration gaps, cash flow mismatch), and cost/expense risks (payroll-social insurance linkage, un-invoiced expenses).
+        </p>
+        <div class="tags">
+          <span class="tag">Golden Tax IV</span>
+          <span class="tag">14 Indicators</span>
+          <span class="tag">Threshold Alerts</span>
+          <span class="tag">Audit Risk Level</span>
+          <span class="tag">KRI Dashboard</span>
+        </div>
+        <div class="ver">Each indicator with formula, warning threshold, and audit risk grade</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Upgraded Skills -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Skills Upgraded</h2>
+      <div class="line"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <span class="badge badge-upgrade">v1.0 to v2.0</span>
+        <h3>maturity-model-assessment v2.0</h3>
+        <p class="desc">
+          Added LRC Lean Rainbow Competitiveness Index (0-100 scale, 7 modules, 5-stage evolution model based on 430+ manufacturing enterprises), AI/ML organizational maturity model (6 dimensions), evidence-based scoring rubric, and dimension inter-dependency matrix.
+        </p>
+        <div class="tags">
+          <span class="tag">LRC Model</span>
+          <span class="tag">AI Readiness</span>
+          <span class="tag">Scoring Rubric</span>
+          <span class="tag">Dependency Map</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-upgrade">v1.0 to v2.0</span>
+        <h3>marketing-ideas v2.0</h3>
+        <p class="desc">
+          Added 5-platform KOL strategy matrix with real 2025 data, B2B vs B2C differentiation (9-dimension comparison), customer journey stage mapping, content strategy dual-axis model, A/B testing framework, and lifecycle marketing integration.
+        </p>
+        <div class="tags">
+          <span class="tag">KOL Matrix</span>
+          <span class="tag">B2B/B2C</span>
+          <span class="tag">Customer Journey</span>
+          <span class="tag">A/B Testing</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-upgrade">v1.0 to v2.0</span>
+        <h3>cost-benefit-analysis v2.0</h3>
+        <p class="desc">
+          Added WACC/CAPM discount rate methodology, break-even analysis, Lean ROI 5-dimension quantification model, China tax incentive evaluation checklist (8 categories: R&D super-deduction, HNTE 15% rate, small-micro enterprise rates, export rebates, etc.).
+        </p>
+        <div class="tags">
+          <span class="tag">WACC/CAPM</span>
+          <span class="tag">Break-Even</span>
+          <span class="tag">Lean ROI</span>
+          <span class="tag">Tax Incentives</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-upgrade">v2.0 to v2.2</span>
+        <h3>risk-assessment-matrix v2.2</h3>
+        <p class="desc">
+          Enhanced through two iterations: v2.1 added 8 tax compliance risk dimensions (Golden Tax IV specific) + Bow-Tie cause-consequence analysis + risk velocity assessment. v2.2 added KRI auto-escalation linkage mechanism connecting tax-risk-indicators to the risk matrix.
+        </p>
+        <div class="tags">
+          <span class="tag">Tax Compliance</span>
+          <span class="tag">Bow-Tie Analysis</span>
+          <span class="tag">Risk Velocity</span>
+          <span class="tag">KRI Linkage</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-upgrade">v1.0 to v2.0</span>
+        <h3>internal-control-assessment</h3>
+        <p class="desc">
+          Enhanced with C-SOX internal control audit guidelines, deficiency classification framework, and lean manufacturing 7-pain-point diagnostic checklist integrated from 2026 industry white paper research.
+        </p>
+        <div class="tags">
+          <span class="tag">C-SOX</span>
+          <span class="tag">Deficiency Classification</span>
+          <span class="tag">COSO Framework</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="section">
+    <div class="section-header">
+      <h2>v4.0 Architecture: Sub-Agent Router</h2>
+      <div class="line"></div>
+    </div>
+    <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; max-width: 720px;">
+      The v4.0 skill standard introduces multi-agent orchestration sourced from TradingAgents and UZI-Skill. Each skill can define multiple sub-agents with conditional routing, tools binding, and output schemas.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 100px 1fr; align-items: center; max-width: 700px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="workflow-step"><div class="icon">&#x1F50D;</div><div class="label">analyst</div><div class="role">需求分析</div></div>
+        <div class="workflow-step"><div class="icon">&#x2705;</div><div class="label">fact_checker</div><div class="role">事实核查</div></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="workflow-step"><div class="icon">&#x1F402;</div><div class="label">bull</div><div class="role">正方论证</div></div>
+          <div class="workflow-step"><div class="icon">&#x1F43B;</div><div class="label">bear</div><div class="role">反方论证</div></div>
+        </div>
+        <div class="workflow-step"><div class="icon">&#x2696;&#xFE0F;</div><div class="label">synthesizer</div><div class="role">综合判断</div></div>
+        <div class="workflow-step"><div class="icon">&#x1F4C4;</div><div class="label">formatter</div><div class="role">格式化输出</div></div>
+      </div>
+      <div style="color: var(--gold); font-size: 1rem; text-align: center; font-weight: 600;">
+        bull &#x2194; bear<br>2-round<br>debate
+      </div>
+      <div style="font-size: 0.85rem; color: var(--muted); line-height: 1.7;">
+        <strong>Dual-Gate Enforcement:</strong><br>
+        <span style="color: #E65100;">HARD-GATE</span> (prompt-level)<br>+<br>
+        <span style="color: #2E7D32;">MECH-GATE</span> (code-level)<br><br>
+        <strong>Cross-Run Memory:</strong><br>
+        Session log + reflection<br>+ pattern accumulation
+      </div>
+    </div>
+  </section>
+
+  <!-- Knowledge Integration -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-header">
+      <h2>Knowledge Integration Methodology</h2>
+      <div class="line"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center;">
+      <div style="padding: 28px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px;">
+        <div style="font-size: 2rem; margin-bottom: 10px;">&#x1F9E0;</div>
+        <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">Understand</div>
+        <div style="font-size: 0.78rem; color: var(--muted);">Core principles<br>Applicable scenarios<br>Source verification</div>
+      </div>
+      <div style="padding: 28px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px;">
+        <div style="font-size: 2rem; margin-bottom: 10px;">&#x1F4D6;</div>
+        <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">Imitate</div>
+        <div style="font-size: 0.78rem; color: var(--muted);">Reproduce classics<br>Master implementation<br>Internalize patterns</div>
+      </div>
+      <div style="padding: 28px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px;">
+        <div style="font-size: 2rem; margin-bottom: 10px;">&#x1F4A1;</div>
+        <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">Innovate</div>
+        <div style="font-size: 0.78rem; color: var(--muted);">Adapt to context<br>Improve weaknesses<br>Create new patterns</div>
+      </div>
+      <div style="padding: 28px 16px; background: var(--navy-light); border: 1px solid rgb(212 175 55 / .2); border-radius: 12px; color: #FFFFFF;">
+        <div style="font-size: 2rem; margin-bottom: 10px;">&#x1F680;</div>
+        <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: var(--gold-light);">Surpass</div>
+        <div style="font-size: 0.78rem; color: rgb(255 255 255 / .6);">Exceed original<br>Production-grade<br>Ecosystem integration</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>AI Agent Skill Ecosystem - Built with ZCode v4.0 Architecture Standard</p>
+    <p style="margin-top: 6px;">
+      Knowledge sources verified: 2026 China tax regulations, LRC Lean White Paper, KOL Platform Analysis, Benjamin Graham, Internal Control Audit Guidelines
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

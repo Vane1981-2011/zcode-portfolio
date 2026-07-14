@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韬定律双引擎驱动框架 · 可视化架构图</title>
+<style>
+@page { size: A4 landscape; margin: 15mm; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#f8f6f0;
+  display:flex; justify-content:center; padding:20px;
+  font-family:"PingFang SC","Noto Serif SC","Source Han Serif SC","Microsoft YaHei",sans-serif;
+}
+.diagram {
+  max-width:1100px; width:100%;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 4px 40px rgba(0,0,0,0.08);
+  padding:32px 28px;
+}
+.header { text-align:center; margin-bottom:28px; }
+.header h1 { font-size:22px; font-weight:900; color:#1a1a2e; letter-spacing:0.08em; }
+.header .sub { font-size:13px; color:#888; margin-top:4px; letter-spacing:0.15em; }
+.header .formula { font-size:14px; color:#4a6fa5; font-weight:700; margin-top:6px; }
+
+/* Pipeline */
+.pipeline { display:flex; gap:4px; margin-bottom:24px; }
+.pipe-box { flex:1; padding:8px 4px; border-radius:4px; text-align:center; font-size:11px; color:#fff; font-weight:600; letter-spacing:0.04em; position:relative; }
+.pipe-box .step { font-size:9px; opacity:0.8; font-weight:400; }
+.pipe-box .arrow-right::after { content:'→'; position:absolute; right:-6px; top:50%; transform:translateY(-50%); color:#999; font-size:16px; }
+.pipe-box:last-child .arrow-right::after { display:none; }
+.pipe-red { background:#e53e3e; }
+.pipe-orange { background:#dd6b20; }
+.pipe-green { background:#38a169; }
+.pipe-blue { background:#3182ce; }
+.pipe-purple { background:#805ad5; }
+.pipe-teal { background:#319795; }
+.pipe-pink { background:#d53f8c; }
+.pipe-gray { background:#718096; }
+
+/* Main grid */
+.main-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+
+/* Card */
+.card { border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; background:#fafafa; }
+.card-header { padding:10px 14px; font-size:13px; font-weight:700; letter-spacing:0.06em; color:#fff; }
+.card-body { padding:12px 14px; font-size:11px; line-height:1.7; color:#4a5568; }
+
+/* Engine boxes */
+.engine-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.engine-box { border-radius:8px; overflow:hidden; }
+.engine-header { padding:12px 16px; color:#fff; font-size:14px; font-weight:700; letter-spacing:0.06em; display:flex; align-items:center; gap:8px; }
+.engine-body { padding:12px 16px; font-size:11px; line-height:1.8; }
+
+/* Quality Gate */
+.gate-row { display:flex; gap:8px; margin:12px 0; }
+.gate-item { flex:1; padding:10px; border-radius:6px; text-align:center; font-size:10px; font-weight:600; }
+
+/* 4 layers */
+.layers { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0; }
+.layer-box { border-radius:6px; padding:10px; text-align:center; }
+.layer-box .num { font-size:18px; font-weight:900; }
+.layer-box .title { font-size:10px; font-weight:600; }
+.layer-box .desc { font-size:9px; opacity:0.7; margin-top:2px; }
+
+/* Lists */
+.item-list { display:flex; flex-wrap:wrap; gap:4px; }
+.item-tag { padding:2px 8px; border-radius:10px; font-size:9px; font-weight:600; }
+
+/* Bottom section */
+.bottom-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+/* Rules */
+.rule-list { margin:8px 0; }
+.rule-item { font-size:10px; padding:4px 0; border-bottom:1px solid #edf2f7; display:flex; align-items:center; gap:6px; }
+.rule-item:last-child { border:none; }
+
+.footer-text { text-align:center; margin-top:20px; font-size:10px; color:#a0aec0; letter-spacing:0.1em; }
+
+/* Table */
+table.tech-table { width:100%; border-collapse:collapse; font-size:10px; margin:8px 0; }
+table.tech-table th { background:#4a5568; color:#fff; padding:4px 6px; text-align:left; font-weight:600; }
+table.tech-table td { padding:4px 6px; border-bottom:1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="diagram">
+
+<!-- Header -->
+<div class="header">
+  <h1>韬定律 · 双引擎驱动框架可视化架构图</h1>
+  <div class="formula">系统性智慧 = 管道约束(韬定律) × 深度判断力(AI专家团队) × 闭环保证(UEL协议)</div>
+  <div class="sub">核心命题 v1.0 | 三段式执行闭环：框架运行前置 → 双引擎并行 → 质检闭环驱动</div>
+</div>
+
+<!-- ⭐ 强制前置质检门禁 -->
+<div style="background:linear-gradient(135deg,#fff5f5,#fff);border:2px solid #fc8181;border-radius:8px;padding:12px 16px;margin-bottom:20px;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div style="background:#e53e3e;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex-shrink:0;">!</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#c53030;">⛔ 框架运行前置强制执行 — 理论质检环节</div>
+      <div style="font-size:11px;color:#4a5568;margin-top:2px;">所有任务启动前必须执行前置质量门禁检查：先核验全部任务完成达标状态 → 质检通过后才启动后续双引擎作业流程。逻辑顺序严格遵循文档原文，不可跳过。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. UEL Pipeline -->
+<div class="card" style="border-color:#4299e1;">
+  <div class="card-header" style="background:linear-gradient(90deg,#2b6cb0,#4299e1);">
+    Universal Execution Loop (UEL) · 所有任务默认前置流程
+  </div>
+  <div class="card-body">
+    <div class="pipeline">
+      <div class="pipe-box pipe-red">⛔ UEL门禁<br><span class="step">不可跳过</span></div>
+      <div class="pipe-box pipe-orange">S1 方法论前置<br><span class="step">框架分析</span></div>
+      <div class="pipe-box pipe-green">S2 框架分析<br><span class="step">结构化拆解</span></div>
+      <div class="pipe-box pipe-blue">S3 双引擎执行<br><span class="step">严格按序</span></div>
+      <div class="pipe-box pipe-purple">S4 质检闭环<br><span class="step">τ质量门禁</span></div>
+    </div>
+    <div class="gate-row">
+      <div class="gate-item" style="background:#fed7d7;color:#c53030;">风险评分≤2 → 单引擎(标准)</div>
+      <div class="gate-item" style="background:#fefcbf;color:#975a16;">风险评分3-4 → 双引擎(推荐)</div>
+      <div class="gate-item" style="background:#fed7d7;color:#c53030;">风险评分≥5 → 双引擎(强制)</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Dual Engine Section -->
+<div class="engine-row">
+  <!-- Engine 1: 韬定律 -->
+  <div class="engine-box" style="border:1px solid #b7791f;">
+    <div class="engine-header" style="background:linear-gradient(135deg,#b7791f,#d69e2e);">
+      ⚙️ 引擎一 · 韬定律系统化管道约束
+    </div>
+    <div class="engine-body" style="background:#fffaf0;">
+      <div style="font-size:12px;font-weight:700;color:#975a16;margin-bottom:6px;">τ-MAD 统一任务执行管道 v2.2</div>
+      <table class="tech-table">
+        <tr><th>#</th><th>阶段</th><th>核心</th><th>τ指标</th><th>门禁</th></tr>
+        <tr><td><strong>M</strong></td><td>Model 建模</td><td>范围·约束·标准</td><td>τ_decide</td><td>建模文档就绪</td></tr>
+        <tr><td><strong>A</strong></td><td>Analyze 分析</td><td>九维扫描·四层穿透</td><td>τ_cognize</td><td>核心≥表面层</td></tr>
+        <tr><td><strong>D</strong></td><td>Design 设计</td><td>方案架构·能力堆叠</td><td>τ_design</td><td>覆盖所有瓶颈</td></tr>
+        <tr><td><strong>T</strong></td><td>Test 测试</td><td>测试策略·τ基准回归</td><td>τ_qa</td><td>覆盖率≥设计面</td></tr>
+        <tr><td><strong>H</strong></td><td>Harden 实现</td><td>代码生成·集成</td><td>τ_execute</td><td>通过全部测试</td></tr>
+        <tr><td><strong>I</strong></td><td>Integrity 规范</td><td>代码审查·τ健康检查</td><td>τ_qa</td><td>质量≥70</td></tr>
+        <tr><td><strong>N</strong></td><td>Nexus 知识</td><td>经验沉淀·τ快照</td><td>τ_close</td><td>≥1条可复用资产</td></tr>
+        <tr><td><strong>Ω</strong></td><td>Optimize 进化</td><td>自检→热力图→升级</td><td>τ_evolve</td><td>触发条件满足</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:10px;font-weight:600;color:#975a16;">十大核心原则</div>
+      <div class="gate-row" style="gap:4px;">
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P1 τ为锚点</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P2 不可跳过</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P3 深度优先</div>
+        <div class="gate-item" style="background:#fed7d7;padding:4px;font-size:8px;">P4 红警永⛔</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P5 复利底座</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P6 规模适配</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P7 降级优雅</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P8 个性化</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P9 双门禁</div>
+        <div class="gate-item" style="background:#fefcbf;padding:4px;font-size:8px;">P10 度量先</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engine 2: AI Expert Team -->
+  <div class="engine-box" style="border:1px solid #553c9a;">
+    <div class="engine-header" style="background:linear-gradient(135deg,#553c9a,#805ad5);">
+      🧠 引擎二 · AI专家团队深度判断力
+    </div>
+    <div class="engine-body" style="background:#faf5ff;">
+      <div style="font-size:12px;font-weight:700;color:#553c9a;margin-bottom:6px;">四委员会矩阵管理 · 12位专家+3灵感+5方法论</div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+        <div style="background:#f0e6ff;border-radius:6px;padding:8px;">
+          <div style="font-size:10px;font-weight:700;color:#553c9a;">🏛 战略与产品委员会</div>
+          <div style="font-size:9px;color:#4a5568;">Sam Altman(主席)·Dario Amodei(安全)</div>
+        </div>
+        <div style="background:#f0e6ff;border-radius:6px;padding:8px;">
+          <div style="font-size:10px;font-weight:700;color:#553c9a;">🔬 研究与架构委员会</div>
+          <div style="font-size:9px;color:#4a5568;">Ilya(主席)·唐杰(联席)·Andrej·Tom S.</div>
+        </div>
+        <div style="background:#f0e6ff;border-radius:6px;padding:8px;">
+          <div style="font-size:10px;font-weight:700;color:#553c9a;">⚡ 工程落地委员会</div>
+          <div style="font-size:9px;color:#4a5568;">Greg(主席)·张鹏(联席)·Tom Brown·GLM组</div>
+        </div>
+        <div style="background:#f0e6ff;border-radius:6px;padding:8px;">
+          <div style="font-size:10px;font-weight:700;color:#553c9a;">📋 方法论与质量委员会</div>
+          <div style="font-size:9px;color:#4a5568;">Daniela(主席)·梁文锋(成本)</div>
+        </div>
+      </div>
+      
+      <div style="background:linear-gradient(90deg,#f0e6ff,#e9d8fd);border-radius:6px;padding:8px;margin-bottom:8px;">
+        <div style="font-size:10px;font-weight:700;color:#553c9a;">💡 灵感介入层（按需）</div>
+        <div style="font-size:9px;color:#4a5568;">马斯克·第一性原理 / 乔布斯·用户体验 / 黄仁勋·硬件生态</div>
+      </div>
+
+      <div style="font-size:10px;font-weight:600;color:#553c9a;margin-bottom:4px;">协作机制</div>
+      <div class="item-list">
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">配对评审</span>
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">交叉指导</span>
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">分层决策</span>
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">冲突调解</span>
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">塔形共识</span>
+        <span class="item-tag" style="background:#f0e6ff;color:#553c9a;">沉默观察员</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Four-layer Deep Fusion -->
+<div class="card" style="border-color:#38a169;">
+  <div class="card-header" style="background:linear-gradient(90deg,#276749,#38a169);">
+    四层深度融合 · 双引擎协同机制
+  </div>
+  <div class="card-body">
+    <div class="layers">
+      <div class="layer-box" style="background:#f0fff4;">
+        <div class="num" style="color:#38a169;">L1</div>
+        <div class="title" style="color:#276749;">阶段绑定</div>
+        <div class="desc">专家双签·阶段门禁</div>
+      </div>
+      <div class="layer-box" style="background:#ebf8ff;">
+        <div class="num" style="color:#3182ce;">L2</div>
+        <div class="title" style="color:#2b6cb0;">框架编排</div>
+        <div class="desc">双引擎并行·框架分析</div>
+      </div>
+      <div class="layer-box" style="background:#fefcbf;">
+        <div class="num" style="color:#d69e2e;">L3</div>
+        <div class="title" style="color:#975a16;">Expert Mode</div>
+        <div class="desc">双通道诊断·τ_cognize</div>
+      </div>
+      <div class="layer-box" style="background:#faf5ff;">
+        <div class="num" style="color:#805ad5;">L4</div>
+        <div class="title" style="color:#553c9a;">Ω自省</div>
+        <div class="desc">自我进化·摩擦采集</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Quality Gate & Red Alert -->
+<div class="bottom-grid" style="margin-top:16px;">
+  <!-- Quality Gates -->
+  <div class="card">
+    <div class="card-header" style="background:#e53e3e;">⛔ 红色警戒规则（不可绕过）</div>
+    <div class="card-body">
+      <div class="rule-list">
+        <div class="rule-item"><span style="color:#e53e3e;font-weight:700;">R1</span>任一维度=1 → 方案重构</div>
+        <div class="rule-item"><span style="color:#e53e3e;font-weight:700;">R2</span>得分<2.0的维度>3个 → 强制复审</div>
+        <div class="rule-item"><span style="color:#e53e3e;font-weight:700;">R3</span>短期高但长期<2.5 → 长期修正</div>
+        <div class="rule-item"><span style="color:#e53e3e;font-weight:700;">R4</span>M2覆盖度=0 → 强制批判分析</div>
+        <div class="rule-item"><span style="color:#e53e3e;font-weight:700;font-size:12px;">🚫 R5</span><span style="color:#c53030;font-weight:700;">C8(伦理)<3 → 一票否决</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- τ Metrics -->
+  <div class="card">
+    <div class="card-header" style="background:#3182ce;">📊 τ 指标体系</div>
+    <div class="card-body">
+      <div class="rule-list">
+        <div class="rule-item"><span style="color:#3182ce;">τ_decide</span> 建模决策质量</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_cognize</span> 认知分析深度</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_design</span> 设计方案完整度</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_qa</span> 测试/规范质量</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_execute</span> 执行效率</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_close</span> 知识沉淀</div>
+        <div class="rule-item"><span style="color:#3182ce;">τ_evolve</span> 自进化能力</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skill Ecosystem -->
+  <div class="card">
+    <div class="card-header" style="background:#805ad5;">🔧 Skill 生态 · τ嵌入分级</div>
+    <div class="card-body">
+      <div class="item-list" style="margin-bottom:8px;">
+        <span class="item-tag" style="background:#c6f6d5;color:#276749;">🟢 FULL (15)</span>
+        <span class="item-tag" style="background:#fefcbf;color:#975a16;">🟡 PARTIAL (28)</span>
+        <span class="item-tag" style="background:#fed7d7;color:#c53030;">🔴 NONE (20)</span>
+        <span class="item-tag" style="background:#e9d8fd;color:#553c9a;">📦 PLUGIN (12)</span>
+      </div>
+      <div style="font-size:10px;line-height:1.8;">
+        <strong>方法论 · 5个:</strong> 冲突调解·分层决策·配对评审·塔形共识·方法论卡片
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-text">
+  韬定律框架 v1.0 | 系统性智慧 = 管道约束(韬定律) × 深度判断力(AI专家团队) × 闭环保证(UEL协议)
+</div>
+
+</div>
+</body>
+</html>
